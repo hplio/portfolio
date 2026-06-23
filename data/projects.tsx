@@ -13,8 +13,8 @@ export const projects: Project[] = [
 		id: 1,
 		title: "Souloxy",
 		description:
-			"Mental wellness app with mood tracking, soul compass, and guided journeys. Built with Flutter, GetX, and Supabase.",
-		tags: ["Flutter", "GetX", "Supabase", "Firebase"],
+			"Student mental wellness platform with wellbeing services, appointment booking, mood tracking, AI chat, and integrated Razorpay payments.",
+		tags: ["Flutter", "Dart", "Supabase", "Firebase", "Razorpay"],
 		liveUrl: "#",
 		githubUrl: "#",
 		featured: true,
@@ -23,8 +23,8 @@ export const projects: Project[] = [
 		id: 2,
 		title: "WellTek",
 		description:
-			"IoT health monitoring platform with real-time MQTT data streaming, push notifications, and AWS EC2 deployment.",
-		tags: ["Node.js", "MQTT", "AWS EC2", "Flutter", "Redis"],
+			"IoT health monitoring backend with real-time MQTT device communication, reconnect logic, FCM push notifications, and production deployment on AWS EC2.",
+		tags: ["Node.js", "TypeScript", "MQTT", "Firebase", "AWS EC2"],
 		liveUrl: "#",
 		githubUrl: "#",
 		featured: true,
@@ -33,10 +33,20 @@ export const projects: Project[] = [
 		id: 3,
 		title: "Dabbawala",
 		description:
-			"Full-stack tiffin delivery platform with OSRM road routing, delivery assignment, and real-time order tracking.",
-		tags: ["NestJS", "Prisma", "PostgreSQL", "Flutter", "OSRM"],
+			"Full-stack tiffin delivery platform with subscription management, IST-aware scheduling, delivery assignment, and real-time order tracking.",
+		tags: ["Node.js", "TypeScript", "PostgreSQL", "Flutter", "Redis"],
 		liveUrl: "#",
 		githubUrl: "#",
 		featured: true,
+	},
+	{
+		id: 4,
+		title: "Ecomly",
+		description:
+			"Scalable e-commerce mobile app with secure authentication, real-time product catalogue, ratings, reviews, and end-to-end order tracking.",
+		tags: ["Flutter", "Dart", "Firebase", "REST API"],
+		liveUrl: "#",
+		githubUrl: "#",
+		featured: false,
 	},
 ];

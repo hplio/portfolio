@@ -14,7 +14,11 @@ function ParticleCanvas() {
 		if (!ctx) return;
 
 		const isMobile = window.innerWidth < 768;
-		const PARTICLE_COUNT = isMobile ? 40 : 80;
+
+		// Fewer particles + lower FPS on mobile → smooth without lag
+		const PARTICLE_COUNT = isMobile ? 15 : 70;
+		const FPS_LIMIT = isMobile ? 20 : 60;
+		const FRAME_INTERVAL = 1000 / FPS_LIMIT;
 
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
@@ -33,16 +37,26 @@ function ParticleCanvas() {
 			() => ({
 				x: Math.random() * canvas.width,
 				y: Math.random() * canvas.height,
-				vx: (Math.random() - 0.5) * 0.3,
-				vy: (Math.random() - 0.5) * 0.3,
+				vx: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.3),
+				vy: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.3),
 				size: Math.random() * 1.5 + 0.5,
 				opacity: Math.random() * 0.4 + 0.1,
 			}),
 		);
 
 		let animId: number;
+		let lastTime = 0;
+		let paused = false;
 
-		function draw() {
+		function draw(currentTime: number) {
+			if (paused) return;
+
+			animId = requestAnimationFrame(draw);
+
+			const elapsed = currentTime - lastTime;
+			if (elapsed < FRAME_INTERVAL) return;
+			lastTime = currentTime - (elapsed % FRAME_INTERVAL);
+
 			ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
 
 			for (const p of particles) {
@@ -60,6 +74,7 @@ function ParticleCanvas() {
 				ctx!.fill();
 			}
 
+			// Connecting lines only on desktop — O(n²) is too heavy for mobile
 			if (!isMobile) {
 				for (let i = 0; i < particles.length; i++) {
 					for (let j = i + 1; j < particles.length; j++) {
@@ -70,18 +85,28 @@ function ParticleCanvas() {
 							ctx!.beginPath();
 							ctx!.moveTo(a.x, a.y);
 							ctx!.lineTo(b.x, b.y);
-							ctx!.strokeStyle = `rgba(123, 110, 246, ${0.08 * (1 - dist / 100)})`;
+							ctx!.strokeStyle = `rgba(123, 110, 246, ${
+								0.08 * (1 - dist / 100)
+							})`;
 							ctx!.lineWidth = 0.5;
 							ctx!.stroke();
 						}
 					}
 				}
 			}
-
-			animId = requestAnimationFrame(draw);
 		}
 
-		draw();
+		// Pause animation when tab is hidden — saves battery and CPU
+		const handleVisibility = () => {
+			paused = document.hidden;
+			if (!paused) {
+				lastTime = 0;
+				animId = requestAnimationFrame(draw);
+			} else {
+				cancelAnimationFrame(animId);
+			}
+		};
+		document.addEventListener("visibilitychange", handleVisibility);
 
 		const onResize = () => {
 			canvas.width = window.innerWidth;
@@ -89,8 +114,11 @@ function ParticleCanvas() {
 		};
 		window.addEventListener("resize", onResize);
 
+		animId = requestAnimationFrame(draw);
+
 		return () => {
 			cancelAnimationFrame(animId);
+			document.removeEventListener("visibilitychange", handleVisibility);
 			window.removeEventListener("resize", onResize);
 		};
 	}, []);
@@ -139,6 +167,7 @@ export default function Hero() {
 		>
 			<ParticleCanvas />
 
+			{/* Ambient radial glow */}
 			<div
 				style={{
 					position: "absolute",
@@ -289,6 +318,7 @@ export default function Hero() {
 					</a>
 				</motion.div>
 
+				{/* Scroll indicator */}
 				<motion.div variants={itemVariants} style={{ marginTop: "64px" }}>
 					<motion.div
 						animate={{ y: [0, 8, 0] }}

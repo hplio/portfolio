@@ -3,28 +3,42 @@
 import { skills } from "@/data/skills";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
-const categoryLabel: Record<string, string> = {
+type Category = "mobile" | "backend" | "devops" | "language";
+
+const categories: Category[] = ["mobile", "backend", "devops", "language"];
+
+const categoryLabel: Record<Category, string> = {
 	mobile: "Mobile",
 	backend: "Backend",
 	devops: "DevOps",
 	language: "Languages",
 };
 
-const categoryColor: Record<string, string> = {
-	mobile: "rgba(123,110,246,0.12)",
-	backend: "rgba(99,210,246,0.10)",
-	devops: "rgba(246,182,99,0.10)",
-	language: "rgba(99,246,152,0.10)",
-};
-
-const categoryAccent: Record<string, string> = {
+const categoryAccent: Record<Category, string> = {
 	mobile: "#7B6EF6",
 	backend: "#63D2F6",
 	devops: "#F6B663",
 	language: "#63F698",
 };
 
-const categories = ["mobile", "backend", "devops", "language"];
+const categoryBg: Record<Category, { base: string; hover: string }> = {
+	mobile: {
+		base: "rgba(123,110,246,0.06)",
+		hover: "rgba(123,110,246,0.14)",
+	},
+	backend: {
+		base: "rgba(99,210,246,0.06)",
+		hover: "rgba(99,210,246,0.14)",
+	},
+	devops: {
+		base: "rgba(246,182,99,0.06)",
+		hover: "rgba(246,182,99,0.14)",
+	},
+	language: {
+		base: "rgba(99,246,152,0.06)",
+		hover: "rgba(99,246,152,0.14)",
+	},
+};
 
 export default function Skills() {
 	const ref = useScrollAnimation();
@@ -37,10 +51,8 @@ export default function Skills() {
 			style={{ background: "rgba(18,18,28,0.5)" }}
 		>
 			<div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px" }}>
-				<div
-					className="fade-up"
-					style={{ textAlign: "center", marginBottom: "64px" }}
-				>
+				{/* Header */}
+				<div className="fade-up" style={{ marginBottom: "64px" }}>
 					<span
 						style={{
 							fontSize: "0.75rem",
@@ -67,70 +79,149 @@ export default function Skills() {
 					</h2>
 				</div>
 
-				<div
-					style={{
-						display: "grid",
-						gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-						gap: "24px",
-					}}
-				>
+				{/* Skill rows */}
+				<div>
 					{categories.map((cat) => (
 						<div
 							key={cat}
-							className="fade-up glass"
-							style={{ padding: "24px" }}
+							className="fade-up"
+							style={{
+								display: "flex",
+								alignItems: "flex-start",
+								gap: "32px",
+								padding: "28px 0",
+								borderTop: "1px solid rgba(255,255,255,0.05)",
+							}}
 						>
-							<h3
+							{/* Category label — fixed-width on desktop, full-width on mobile */}
+							<div
 								style={{
-									fontSize: "0.75rem",
-									letterSpacing: "0.08em",
-									textTransform: "uppercase",
-									color: categoryAccent[cat],
-									fontWeight: 600,
-									marginBottom: "16px",
+									minWidth: "100px",
+									width: "100px",
+									flexShrink: 0,
+									paddingTop: "7px",
 								}}
 							>
-								{categoryLabel[cat]}
-							</h3>
-							<div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+								<span
+									style={{
+										fontSize: "0.68rem",
+										fontWeight: 700,
+										letterSpacing: "0.12em",
+										textTransform: "uppercase",
+										color: categoryAccent[cat],
+									}}
+								>
+									{categoryLabel[cat]}
+								</span>
+							</div>
+
+							{/* Skill chips */}
+							<div
+								style={{
+									display: "flex",
+									flexWrap: "wrap",
+									gap: "10px",
+									flex: 1,
+								}}
+							>
 								{skills
 									.filter((s) => s.category === cat)
 									.map((skill) => (
-										<span
+										<SkillChip
 											key={skill.name}
-											role="img"
-											aria-label={skill.name}
-											style={{
-												padding: "6px 14px",
-												background: categoryColor[cat],
-												border: `1px solid ${categoryAccent[cat]}22`,
-												borderRadius: "100px",
-												fontSize: "0.8rem",
-												color: "#EDEDED",
-												fontWeight: 500,
-												transition: "all 0.2s ease",
-												cursor: "default",
-												display: "inline-block",
-											}}
-											onMouseEnter={(e) => {
-												e.currentTarget.style.borderColor = categoryAccent[cat];
-												e.currentTarget.style.color = categoryAccent[cat];
-												e.currentTarget.style.transform = "translateY(-2px)";
-											}}
-											onMouseLeave={(e) => {
-												e.currentTarget.style.borderColor = `${categoryAccent[cat]}22`;
-												e.currentTarget.style.color = "#EDEDED";
-												e.currentTarget.style.transform = "translateY(0)";
-											}}
-										>
-											{skill.name}
-										</span>
+											name={skill.name}
+											accent={categoryAccent[cat]}
+											bg={categoryBg[cat]}
+										/>
 									))}
 							</div>
 						</div>
 					))}
+
+					{/* Bottom row — embedded exploration note */}
+					<div
+						className="fade-up"
+						style={{
+							borderTop: "1px solid rgba(255,255,255,0.05)",
+							padding: "24px 0 0",
+							display: "flex",
+							alignItems: "center",
+							gap: "32px",
+						}}
+					>
+						<div
+							style={{
+								minWidth: "100px",
+								width: "100px",
+								flexShrink: 0,
+							}}
+						>
+							<span
+								style={{
+									fontSize: "0.68rem",
+									fontWeight: 700,
+									letterSpacing: "0.12em",
+									textTransform: "uppercase",
+									color: "#8888A0",
+								}}
+							>
+								Learning
+							</span>
+						</div>
+						<p
+							style={{
+								color: "#8888A0",
+								fontSize: "0.875rem",
+								lineHeight: 1.6,
+							}}
+						>
+							STM32 · FreeRTOS · Embedded C — diving into low-level systems.
+						</p>
+					</div>
 				</div>
 			</div>
 		</section>
+	);
+}
+
+function SkillChip({
+	name,
+	accent,
+	bg,
+}: {
+	name: string;
+	accent: string;
+	bg: { base: string; hover: string };
+}) {
+	return (
+		<span
+			style={{
+				display: "inline-block",
+				padding: "8px 18px",
+				background: bg.base,
+				border: `1px solid ${accent}30`,
+				borderLeft: `3px solid ${accent}`,
+				borderRadius: "8px",
+				fontSize: "0.875rem",
+				color: "#EDEDED",
+				fontWeight: 500,
+				transition:
+					"background 0.2s ease, color 0.2s ease, border-color 0.2s ease",
+				cursor: "default",
+				lineHeight: 1,
+			}}
+			onMouseEnter={(e) => {
+				e.currentTarget.style.background = bg.hover;
+				e.currentTarget.style.color = accent;
+				e.currentTarget.style.borderColor = `${accent}60`;
+			}}
+			onMouseLeave={(e) => {
+				e.currentTarget.style.background = bg.base;
+				e.currentTarget.style.color = "#EDEDED";
+				e.currentTarget.style.borderColor = `${accent}30`;
+			}}
+		>
+			{name}
+		</span>
 	);
 }

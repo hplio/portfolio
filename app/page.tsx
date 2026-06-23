@@ -11,9 +11,13 @@ import Projects from "@/components/sections/Project";
 import Skills from "@/components/sections/Skills";
 
 export default function Home() {
-	// Lenis smooth scroll init
+	// Lenis smooth scroll — desktop only.
+	// On mobile, JS smooth scroll fights with native momentum scrolling and causes jank.
 	useEffect(() => {
 		const initLenis = async () => {
+			if (typeof window === "undefined") return;
+			if (window.innerWidth < 768) return;
+
 			const Lenis = (await import("lenis")).default;
 			const lenis = new Lenis({
 				duration: 1.2,
