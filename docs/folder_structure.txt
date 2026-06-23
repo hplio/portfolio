@@ -1,0 +1,50 @@
+portfolio/
+├── public/
+│   └── assets/           # static images, resume PDF
+│
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx    # root layout, fonts, metadata
+│   │   ├── page.tsx      # home (all sections)
+│   │   └── globals.css   # CSS variables, base styles
+│   │
+│   ├── components/
+│   │   ├── ui/           # reusable small components
+│   │   │   ├── Button.tsx
+│   │   │   ├── Badge.tsx
+│   │   │   └── SectionLabel.tsx
+│   │   │
+│   │   ├── three/        # all R3F / 3D stuff isolated here
+│   │   │   ├── HeroScene.tsx
+│   │   │   └── ParticleField.tsx
+│   │   │
+│   │   ├── sections/     # one file per section
+│   │   │   ├── Hero.tsx
+│   │   │   ├── About.tsx
+│   │   │   ├── Skills.tsx
+│   │   │   ├── Projects.tsx
+│   │   │   ├── Experience.tsx
+│   │   │   └── Contact.tsx
+│   │   │
+│   │   └── layout/
+│   │       ├── Navbar.tsx
+│   │       └── Footer.tsx
+│   │
+│   ├── hooks/
+│   │   ├── useScrollAnimation.ts   # GSAP scroll logic
+│   │   └── useLenis.ts             # smooth scroll setup
+│   │
+│   ├── lib/
+│   │   └── utils.ts      # cn() helper, misc utils
+│   │
+│   ├── data/
+│   │   ├── projects.ts   # your project info as data
+│   │   ├── skills.ts     # tech stack list
+│   │   └── experience.ts # work history
+│   │
+│   └── styles/
+│       └── animations.css  # reusable keyframes
+│
+├── tailwind.config.ts
+├── next.config.ts
+└── tsconfig.json
