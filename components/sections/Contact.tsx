@@ -3,17 +3,53 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { socials } from "@/lib/socials";
+
+const FORMSPREE_ID = "mgojoknl";
+
+const inputStyle = {
+	width: "100%",
+	padding: "12px 16px",
+	background: "rgba(255,255,255,0.04)",
+	border: "1px solid rgba(255,255,255,0.08)",
+	borderRadius: "10px",
+	color: "#EDEDED",
+	fontSize: "0.9rem",
+	outline: "none",
+	transition: "border-color 0.2s",
+	fontFamily: "Inter, sans-serif",
+} as React.CSSProperties;
 
 export default function Contact() {
 	const ref = useScrollAnimation();
 	const [form, setForm] = useState({ name: "", email: "", message: "" });
-	const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+	const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+		"idle",
+	);
 
 	const handleSubmit = async () => {
+		if (!form.name || !form.email || !form.message) return;
 		setStatus("sending");
-		// Add Formspree / EmailJS / Resend logic here
-		await new Promise((r) => setTimeout(r, 1000));
-		setStatus("sent");
+
+		try {
+			const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					name: form.name,
+					email: form.email,
+					message: form.message,
+				}),
+			});
+			if (res.ok) {
+				setStatus("sent");
+				setForm({ name: "", email: "", message: "" });
+			} else {
+				setStatus("error");
+			}
+		} catch {
+			setStatus("error");
+		}
 	};
 
 	return (
@@ -26,6 +62,7 @@ export default function Contact() {
 					textAlign: "center",
 				}}
 			>
+				{/* Header */}
 				<div className="fade-up" style={{ marginBottom: "48px" }}>
 					<span
 						style={{
@@ -53,21 +90,43 @@ export default function Contact() {
 						Get in touch
 					</h2>
 					<p style={{ color: "#8888A0", lineHeight: 1.7 }}>
-						Open to freelance projects, collaborations, or just a chat about
-						tech and embedded systems.
+						Open to freelance projects, collaborations, or a chat about tech and
+						embedded systems.
 					</p>
 				</div>
 
+				{/* Success */}
 				{status === "sent" ? (
 					<motion.div
 						initial={{ opacity: 0, scale: 0.95 }}
 						animate={{ opacity: 1, scale: 1 }}
 						className="glass"
-						style={{ padding: "48px", textAlign: "center" }}
+						style={{ padding: "56px 32px", textAlign: "center" }}
 					>
-						<div style={{ fontSize: "2rem", marginBottom: "12px" }}>✓</div>
+						<div
+							style={{
+								width: "48px",
+								height: "48px",
+								borderRadius: "50%",
+								background: "rgba(99,246,152,0.1)",
+								border: "1px solid rgba(99,246,152,0.3)",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								margin: "0 auto 16px",
+								fontSize: "1.2rem",
+								color: "#63F698",
+							}}
+						>
+							✓
+						</div>
 						<p
-							style={{ color: "#EDEDED", fontWeight: 600, marginBottom: "8px" }}
+							style={{
+								color: "#EDEDED",
+								fontWeight: 600,
+								marginBottom: "8px",
+								fontSize: "1.1rem",
+							}}
 						>
 							Message sent!
 						</p>
@@ -91,6 +150,7 @@ export default function Contact() {
 										color: "#8888A0",
 										display: "block",
 										marginBottom: "8px",
+										fontWeight: 500,
 									}}
 								>
 									Name
@@ -101,17 +161,7 @@ export default function Contact() {
 									value={form.name}
 									onChange={(e) => setForm({ ...form, name: e.target.value })}
 									placeholder="Your name"
-									style={{
-										width: "100%",
-										padding: "12px 16px",
-										background: "rgba(255,255,255,0.04)",
-										border: "1px solid rgba(255,255,255,0.08)",
-										borderRadius: "10px",
-										color: "#EDEDED",
-										fontSize: "0.9rem",
-										outline: "none",
-										transition: "border-color 0.2s",
-									}}
+									style={inputStyle}
 									onFocus={(e) =>
 										(e.target.style.borderColor = "rgba(123,110,246,0.5)")
 									}
@@ -129,6 +179,7 @@ export default function Contact() {
 										color: "#8888A0",
 										display: "block",
 										marginBottom: "8px",
+										fontWeight: 500,
 									}}
 								>
 									Email
@@ -139,17 +190,7 @@ export default function Contact() {
 									value={form.email}
 									onChange={(e) => setForm({ ...form, email: e.target.value })}
 									placeholder="your@email.com"
-									style={{
-										width: "100%",
-										padding: "12px 16px",
-										background: "rgba(255,255,255,0.04)",
-										border: "1px solid rgba(255,255,255,0.08)",
-										borderRadius: "10px",
-										color: "#EDEDED",
-										fontSize: "0.9rem",
-										outline: "none",
-										transition: "border-color 0.2s",
-									}}
+									style={inputStyle}
 									onFocus={(e) =>
 										(e.target.style.borderColor = "rgba(123,110,246,0.5)")
 									}
@@ -167,6 +208,7 @@ export default function Contact() {
 										color: "#8888A0",
 										display: "block",
 										marginBottom: "8px",
+										fontWeight: 500,
 									}}
 								>
 									Message
@@ -179,19 +221,7 @@ export default function Contact() {
 									}
 									placeholder="What's on your mind?"
 									rows={5}
-									style={{
-										width: "100%",
-										padding: "12px 16px",
-										background: "rgba(255,255,255,0.04)",
-										border: "1px solid rgba(255,255,255,0.08)",
-										borderRadius: "10px",
-										color: "#EDEDED",
-										fontSize: "0.9rem",
-										outline: "none",
-										resize: "vertical",
-										fontFamily: "Inter, sans-serif",
-										transition: "border-color 0.2s",
-									}}
+									style={{ ...inputStyle, resize: "vertical" }}
 									onFocus={(e) =>
 										(e.target.style.borderColor = "rgba(123,110,246,0.5)")
 									}
@@ -201,6 +231,21 @@ export default function Contact() {
 								/>
 							</div>
 
+							{status === "error" && (
+								<p
+									style={{
+										fontSize: "0.8rem",
+										color: "#F66363",
+										textAlign: "center",
+									}}
+								>
+									Something went wrong. Email me directly at{" "}
+									<a href={socials.emailUrl} style={{ color: "#7B6EF6" }}>
+										{socials.email}
+									</a>
+								</p>
+							)}
+
 							<button
 								type="button"
 								onClick={handleSubmit}
@@ -208,14 +253,14 @@ export default function Contact() {
 								style={{
 									width: "100%",
 									padding: "14px",
-									background: "#7B6EF6",
+									background:
+										status === "sending" ? "rgba(123,110,246,0.5)" : "#7B6EF6",
 									border: "none",
 									borderRadius: "10px",
 									color: "#fff",
 									fontWeight: 600,
 									fontSize: "0.95rem",
 									cursor: status === "sending" ? "not-allowed" : "pointer",
-									opacity: status === "sending" ? 0.7 : 1,
 									transition: "all 0.2s ease",
 									boxShadow: "0 0 24px rgba(123,110,246,0.25)",
 								}}
@@ -233,6 +278,7 @@ export default function Contact() {
 					</div>
 				)}
 
+				{/* Social links */}
 				<div
 					className="fade-up"
 					style={{
@@ -240,17 +286,18 @@ export default function Contact() {
 						gap: "24px",
 						justifyContent: "center",
 						marginTop: "40px",
+						flexWrap: "wrap",
 					}}
 				>
 					{[
-						{ label: "GitHub", url: "https://github.com/yourusername" },
-						{ label: "LinkedIn", url: "https://linkedin.com/in/yourusername" },
-						{ label: "Email", url: "mailto:your@email.com" },
+						{ label: "GitHub", url: socials.github },
+						{ label: "LinkedIn", url: socials.linkedin },
+						{ label: "Email", url: socials.emailUrl },
 					].map((link) => (
 						<a
 							key={link.label}
 							href={link.url}
-							target="_blank"
+							target={link.label !== "Email" ? "_blank" : undefined}
 							rel="noopener noreferrer"
 							style={{
 								color: "#8888A0",

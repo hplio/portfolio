@@ -3,12 +3,19 @@
 import { skills } from "@/data/skills";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
-type Category = "mobile" | "backend" | "devops" | "language";
+type Category = "mobile" | "frontend" | "backend" | "devops" | "language";
 
-const categories: Category[] = ["mobile", "backend", "devops", "language"];
+const categories: Category[] = [
+	"mobile",
+	"frontend",
+	"backend",
+	"devops",
+	"language",
+];
 
 const categoryLabel: Record<Category, string> = {
 	mobile: "Mobile",
+	frontend: "Frontend",
 	backend: "Backend",
 	devops: "DevOps",
 	language: "Languages",
@@ -16,28 +23,18 @@ const categoryLabel: Record<Category, string> = {
 
 const categoryAccent: Record<Category, string> = {
 	mobile: "#7B6EF6",
+	frontend: "#F67BB6",
 	backend: "#63D2F6",
 	devops: "#F6B663",
 	language: "#63F698",
 };
 
 const categoryBg: Record<Category, { base: string; hover: string }> = {
-	mobile: {
-		base: "rgba(123,110,246,0.06)",
-		hover: "rgba(123,110,246,0.14)",
-	},
-	backend: {
-		base: "rgba(99,210,246,0.06)",
-		hover: "rgba(99,210,246,0.14)",
-	},
-	devops: {
-		base: "rgba(246,182,99,0.06)",
-		hover: "rgba(246,182,99,0.14)",
-	},
-	language: {
-		base: "rgba(99,246,152,0.06)",
-		hover: "rgba(99,246,152,0.14)",
-	},
+	mobile: { base: "rgba(123,110,246,0.06)", hover: "rgba(123,110,246,0.14)" },
+	frontend: { base: "rgba(246,123,182,0.06)", hover: "rgba(246,123,182,0.14)" },
+	backend: { base: "rgba(99,210,246,0.06)", hover: "rgba(99,210,246,0.14)" },
+	devops: { base: "rgba(246,182,99,0.06)", hover: "rgba(246,182,99,0.14)" },
+	language: { base: "rgba(99,246,152,0.06)", hover: "rgba(99,246,152,0.14)" },
 };
 
 export default function Skills() {
@@ -93,13 +90,13 @@ export default function Skills() {
 								borderTop: "1px solid rgba(255,255,255,0.05)",
 							}}
 						>
-							{/* Category label — fixed-width on desktop, full-width on mobile */}
+							{/* Category label */}
 							<div
 								style={{
 									minWidth: "100px",
 									width: "100px",
 									flexShrink: 0,
-									paddingTop: "7px",
+									paddingTop: "9px",
 								}}
 							>
 								<span
@@ -115,7 +112,7 @@ export default function Skills() {
 								</span>
 							</div>
 
-							{/* Skill chips */}
+							{/* Chips */}
 							<div
 								style={{
 									display: "flex",
@@ -138,7 +135,7 @@ export default function Skills() {
 						</div>
 					))}
 
-					{/* Bottom row — embedded exploration note */}
+					{/* Learning row */}
 					<div
 						className="fade-up"
 						style={{
@@ -149,13 +146,7 @@ export default function Skills() {
 							gap: "32px",
 						}}
 					>
-						<div
-							style={{
-								minWidth: "100px",
-								width: "100px",
-								flexShrink: 0,
-							}}
-						>
+						<div style={{ minWidth: "100px", width: "100px", flexShrink: 0 }}>
 							<span
 								style={{
 									fontSize: "0.68rem",
@@ -175,7 +166,8 @@ export default function Skills() {
 								lineHeight: 1.6,
 							}}
 						>
-							STM32 · FreeRTOS · Embedded C — diving into low-level systems.
+							STM32 · FreeRTOS · Embedded C diving into low-level systems for
+							MSc in Embedded Systems.
 						</p>
 					</div>
 				</div>

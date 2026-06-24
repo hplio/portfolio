@@ -9,10 +9,10 @@ import Experience from "@/components/sections/Experience";
 import Hero from "@/components/sections/Hero";
 import Projects from "@/components/sections/Project";
 import Skills from "@/components/sections/Skills";
+import Stats from "@/components/sections/Stats";
+import CursorGlow from "@/components/ui/CursorGlow";
 
 export default function Home() {
-	// Lenis smooth scroll — desktop only.
-	// On mobile, JS smooth scroll fights with native momentum scrolling and causes jank.
 	useEffect(() => {
 		const initLenis = async () => {
 			if (typeof window === "undefined") return;
@@ -36,15 +36,19 @@ export default function Home() {
 	}, []);
 
 	return (
-		<main>
-			<Navbar />
-			<Hero />
-			<About />
-			<Skills />
-			<Projects />
-			<Experience />
-			<Contact />
-			<Footer />
-		</main>
+		<>
+			<CursorGlow />
+			<main style={{ position: "relative", zIndex: 1 }}>
+				<Navbar />
+				<Hero />
+				<Stats />
+				<About />
+				<Skills />
+				<Projects />
+				<Experience />
+				<Contact />
+				<Footer />
+			</main>
+		</>
 	);
 }

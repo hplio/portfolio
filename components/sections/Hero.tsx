@@ -241,7 +241,7 @@ export default function Hero() {
 						backgroundClip: "text",
 					}}
 				>
-					Flutter & Backend Developer
+				Mobile, Web & Backend Developer
 				</motion.h2>
 
 				<motion.p
@@ -255,7 +255,7 @@ export default function Hero() {
 					}}
 				>
 					I build elegant mobile apps and scalable backends. From IoT platforms
-					to mental wellness apps — turning ideas into shipped products.
+					to mental wellness apps turning ideas into shipped products.
 				</motion.p>
 
 				<motion.div

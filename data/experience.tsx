@@ -16,7 +16,7 @@ export const experiences: Experience[] = [
 		description: [
 			"Building cross-platform mobile apps with Flutter and RESTful APIs with Node.js, Express.js, and TypeScript",
 			"Integrating third-party services including authentication providers, payment gateways, and cloud platforms",
-			"Managing full project lifecycle — from requirements and database design to deployment on AWS EC2 and Render",
+			"Managing full project lifecycle from requirements and database design to deployment on AWS EC2 and Render",
 		],
 		type: "freelance",
 	},
@@ -27,20 +27,21 @@ export const experiences: Experience[] = [
 		period: "Jun 2024 – May 2025",
 		description: [
 			"Developed and shipped cross-platform mobile applications for Android and iOS using Flutter and Dart",
-			"Built a mental wellness platform and a structured 40-day journey app from scratch to production",
-			"Implemented responsive UI/UX, third-party API integrations, custom video players, and push notifications",
+			"Developed a ride-booking application and a logistics management platform enabling companies to assign deliveries and track orders in real time.",
+			"Built dedicated workflows for customers, delivery partners, and administrators, including order management, tracking, notifications, and operational dashboards.",
+			"Integrated maps, geolocation, APIs, and backend services to ensure reliable and efficient logistics operations.",
 		],
 		type: "full-time",
 	},
 	{
 		id: 3,
-		role: "IT Support Intern",
-		company: "JCN Technology",
+		role: "IT Support",
+		company: "Jcn Technology Pvt Ltd",
 		period: "Oct 2025 – Dec 2025",
 		description: [
 			"Provided hardware maintenance, data backups, and first/second-line helpdesk support",
 			"Handled network setup, cable management, and connectivity troubleshooting",
 		],
-		type: "internship",
+		type: "full-time",
 	},
 ];

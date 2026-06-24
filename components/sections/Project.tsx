@@ -32,10 +32,15 @@ export default function Projects() {
 							fontWeight: 700,
 							letterSpacing: "-0.02em",
 							color: "#EDEDED",
+							marginBottom: "12px",
 						}}
 					>
-						Projects I've shipped
+						Projects I've built
 					</h2>
+					<p style={{ color: "#8888A0", fontSize: "0.9rem", lineHeight: 1.6 }}>
+						Some are open source. Some are client work shipped to production
+						but kept private.
+					</p>
 				</div>
 
 				{/* Cards */}
@@ -54,12 +59,13 @@ export default function Projects() {
 							transition={{ duration: 0.25, ease: "easeOut" }}
 							style={{
 								padding: "28px",
-								cursor: "pointer",
 								position: "relative",
 								overflow: "hidden",
+								display: "flex",
+								flexDirection: "column",
 							}}
 						>
-							{/* Glow on hover accent */}
+							{/* Corner glow */}
 							<div
 								style={{
 									position: "absolute",
@@ -74,18 +80,46 @@ export default function Projects() {
 								}}
 							/>
 
-							{/* Project number */}
-							<span
+							{/* Top row — number + client badge */}
+							<div
 								style={{
-									fontSize: "0.7rem",
-									color: "#7B6EF6",
-									fontWeight: 600,
-									letterSpacing: "0.1em",
-									opacity: 0.6,
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "space-between",
+									marginBottom: "12px",
 								}}
 							>
-								0{i + 1}
-							</span>
+								<span
+									style={{
+										fontSize: "0.7rem",
+										color: "#7B6EF6",
+										fontWeight: 600,
+										letterSpacing: "0.1em",
+										opacity: 0.6,
+									}}
+								>
+									0{i + 1}
+								</span>
+
+								{/* Client work badge */}
+								{project.isClientWork && (
+									<span
+										style={{
+											padding: "3px 10px",
+											background: "rgba(246,182,99,0.08)",
+											border: "1px solid rgba(246,182,99,0.2)",
+											borderRadius: "100px",
+											fontSize: "0.65rem",
+											color: "#F6B663",
+											fontWeight: 600,
+											letterSpacing: "0.06em",
+											textTransform: "uppercase",
+										}}
+									>
+										Client work
+									</span>
+								)}
+							</div>
 
 							{/* Title */}
 							<h3
@@ -95,7 +129,7 @@ export default function Projects() {
 									fontWeight: 700,
 									letterSpacing: "-0.02em",
 									color: "#EDEDED",
-									margin: "8px 0 12px",
+									marginBottom: "12px",
 								}}
 							>
 								{project.title}
@@ -105,9 +139,10 @@ export default function Projects() {
 							<p
 								style={{
 									color: "#8888A0",
-									fontSize: "0.9rem",
-									lineHeight: 1.7,
+									fontSize: "0.875rem",
+									lineHeight: 1.75,
 									marginBottom: "20px",
+									flex: 1,
 								}}
 							>
 								{project.description}
@@ -141,8 +176,10 @@ export default function Projects() {
 							</div>
 
 							{/* Links */}
-							<div style={{ display: "flex", gap: "16px" }}>
-								{project.githubUrl && (
+							<div
+								style={{ display: "flex", gap: "16px", alignItems: "center" }}
+							>
+								{project.githubUrl && !project.isClientWork ? (
 									<a
 										href={project.githubUrl}
 										target="_blank"
@@ -163,8 +200,9 @@ export default function Projects() {
 									>
 										GitHub ↗
 									</a>
-								)}
-								{project.liveUrl && (
+								) : null}
+
+								{project.liveUrl ? (
 									<a
 										href={project.liveUrl}
 										target="_blank"
@@ -185,6 +223,20 @@ export default function Projects() {
 									>
 										Live Demo ↗
 									</a>
+								) : null}
+
+								{/* Private work note */}
+								{project.isClientWork && (
+									<span
+										style={{
+											fontSize: "0.75rem",
+											color: "#8888A0",
+											fontStyle: "italic",
+											opacity: 0.7,
+										}}
+									>
+										Private repo · NDA
+									</span>
 								)}
 							</div>
 						</motion.div>
