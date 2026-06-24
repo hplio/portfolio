@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Harshil Patel — Flutter & Backend Developer",
+	title: "Harshil Patel - Mobile, Web & Backend Developer",
 	description:
 		"Full-stack developer specializing in Flutter, Node.js, and embedded systems. Building elegant mobile apps and scalable backends.",
 	keywords: [
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 	],
 	authors: [{ name: "Harshil Patel" }],
 	openGraph: {
-		title: "Harshil Patel — Flutter & Backend Developer",
+		title: "Harshil Patel - Mobile, Web & Backend Developer",
 		description: "Building elegant apps and scalable backends.",
 		type: "website",
 	},
